@@ -12,9 +12,10 @@
     <PackageVersion Include="Azure.AI.ContentSafety" Version="1.0.0" />
     <PackageVersion Include="Azure.Identity" Version="1.21.0" />
 
-    <!-- Retrieval: pgvector on Postgres. -->
+    <!-- Retrieval: pgvector on Postgres (primary), Azure AI Search (cloud variant). -->
     <PackageVersion Include="Npgsql" Version="10.0.3" />
     <PackageVersion Include="Pgvector" Version="0.3.2" />
+    <PackageVersion Include="Azure.Search.Documents" Version="12.0.0" />
 
     <!-- Test tooling. -->
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
