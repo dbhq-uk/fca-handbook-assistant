@@ -1,0 +1,39 @@
+## .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+project.lock.json
+artifacts/
+[Dd]ebug/
+[Rr]elease/
+TestResults/
+*.received.*
+
+## IDE
+.idea/
+
+## Terraform (infra/)
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+## Secrets / local config
+appsettings.*.local.json
+.env
+*.env
+
+# The provider lock file infra/.terraform.lock.hcl IS committed - do not ignore it

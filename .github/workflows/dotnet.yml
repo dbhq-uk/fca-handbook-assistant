@@ -1,0 +1,41 @@
+name: dotnet
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    name: format · build · test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: restore
+        run: dotnet restore
+
+      - name: format check
+        run: dotnet format --verify-no-changes
+
+      - name: build
+        run: dotnet build --no-restore -c Release
+
+      - name: test
+        run: dotnet test --no-build -c Release
+
+      - name: gitleaks
+        run: |
+          url=$(curl -sSfL https://api.github.com/repos/gitleaks/gitleaks/releases/latest | grep -o 'https://[^"]*linux_x64.tar.gz' | head -1)
+          curl -sSfL "$url" -o gl.tgz
+          tar -xzf gl.tgz gitleaks
+          ./gitleaks detect --source . --redact --no-banner --exit-code 1
