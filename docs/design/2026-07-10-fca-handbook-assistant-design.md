@@ -22,9 +22,9 @@ regulated behaviour (citation accuracy and refusal-when-unsure), not just answer
   Azure, ingest, run live evals, exercise the app, capture evidence, and destroy.
 - Primary retrieval is pgvector on the local Postgres (not Docker); Azure AI Search is the
   cloud parity variant behind the same interface. Both are exercised, evidencing both.
-- Corpus is a curated representative subset (PRIN in full plus selected SYSC / COBS / SUP
-  chapters) - enough to demonstrate grounding and refusal, small to embed, and no wholesale
-  redistribution of Crown/FCA copyright material.
+- The ingested Handbook content is a curated representative subset (PRIN in full plus
+  selected SYSC / COBS / SUP chapters) - enough to demonstrate grounding and refusal, small
+  to embed, and no wholesale redistribution of Crown/FCA copyright material.
 - Agent is the code-first Foundry Responses agent (Microsoft Agent Framework over an Azure
   AI Foundry project), accepting that the Foundry provider is still preview. The
   server-managed Foundry Agent Service is noted in the README as the managed-runtime
@@ -151,12 +151,13 @@ an audit panel showing what was retrieved versus what was cited.
 - Observability: OpenTelemetry exported to Azure Monitor; custom metrics for token cost,
   latency, refusal rate, and citation counts; a workbook/dashboard JSON committed in-repo.
 
-### Corpus handling
+### Handbook content handling
 
 The ingestion tool politely fetches a curated list of provision URLs from
 `handbook.fca.org.uk` (rate-limited, identified user agent, robots-respecting). The repo
-stores only a manifest (references and URLs) plus code - never the wholesale corpus. Chunks
-and embeddings live in the database. Every citation links back to `handbook.fca.org.uk`.
+stores only a manifest (references and URLs) plus code - never the wholesale Handbook text.
+Chunks and embeddings live in the database. Every citation links back to
+`handbook.fca.org.uk`.
 
 ## Sequencing (this session)
 
@@ -180,6 +181,6 @@ and embeddings live in the database. Every citation links back to `handbook.fca.
 
 ## Out of scope (for now)
 
-- Wholesale corpus ingestion across all sourcebooks.
+- Wholesale ingestion across all sourcebooks.
 - Cloud Postgres/pgvector (optional; AI Search covers the cloud retrieval story).
 - A versioned server-managed Foundry Agent (noted as an alternative, not built).

@@ -31,9 +31,9 @@ The star is exactly what regulated AI needs, not just a chatbot:
 
 Scaffold - a buildable skeleton (API + test project, infra placeholder). The build is specified in the handoff brief that seeds it.
 
-## Corpus note
+## Handbook content
 
-The FCA Handbook is publicly published but Crown/FCA copyright. Cite and link back to `handbook.fca.org.uk`; store chunks/embeddings for retrieval; do not wholesale redistribute the corpus in this repo.
+The FCA Handbook is publicly published but Crown/FCA copyright. Cite and link back to `handbook.fca.org.uk`; store chunks/embeddings for retrieval; do not wholesale redistribute the Handbook text in this repo.
 
 ## Cost discipline
 

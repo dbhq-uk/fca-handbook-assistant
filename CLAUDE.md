@@ -9,9 +9,9 @@ Public proof-of-worth repo: a full-stack .NET reference implementation of regula
 - **LLMOps is not optional polish.** Evals in CI, cost/latency in App Insights, IaC + CI/CD. That layer is what makes this hireable.
 - **Cost safety:** consumption/serverless only, remote state in the `azure-housekeeping` backend, deploy-capture-destroy each session.
 
-## Corpus handling
+## Handbook content handling
 
-The FCA Handbook is publicly published but Crown/FCA copyright. Cite and link back to `handbook.fca.org.uk`, store chunks/embeddings for retrieval, and do not wholesale redistribute the corpus in the repo. Ingest politely.
+The FCA Handbook is publicly published but Crown/FCA copyright. Cite and link back to `handbook.fca.org.uk`, store chunks/embeddings for retrieval, and do not wholesale redistribute the Handbook text in the repo. Ingest politely.
 
 ## Conventions
 
