@@ -64,3 +64,7 @@ Log Analytics + App Insights, Key Vault + managed identity, Container Registry.
 - **Cost:** consumption/serverless tiers; embeddings are pay-per-token (pennies for ~30 calls),
   Container Apps scale-to-zero, burstable Postgres. The Sponsorship offer has no Cost Management API,
   so the balance is watched in the Sponsorships portal. Everything is destroyed at the end.
+
+## Teardown
+
+`terraform destroy` removed all 15 resources; the resource group is gone (`az group exists` = false). Nothing runs after the session.
