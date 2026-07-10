@@ -21,22 +21,16 @@ variable "location" {
   default     = "uksouth"
 }
 
-variable "chat_deployment" {
-  description = "Name of the chat model deployment."
+variable "image_tag" {
+  description = "Container image tag to deploy (built into ACR)."
   type        = string
-  default     = "gpt-4o-mini"
+  default     = "latest"
 }
 
 variable "embedding_deployment" {
   description = "Name of the embedding model deployment."
   type        = string
   default     = "text-embedding-3-small"
-}
-
-variable "container_image" {
-  description = "Container image for the app (for example ghcr.io/dbhq-uk/fca-handbook-assistant:<tag>)."
-  type        = string
-  default     = "ghcr.io/dbhq-uk/fca-handbook-assistant:latest"
 }
 
 variable "postgres_admin_login" {

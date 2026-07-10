@@ -26,6 +26,11 @@ resource "azurerm_container_app" "app" {
     identity_ids = [azurerm_user_assigned_identity.app.id]
   }
 
+  registry {
+    server   = azurerm_container_registry.acr.login_server
+    identity = azurerm_user_assigned_identity.app.id
+  }
+
   secret {
     name  = "postgres-connection"
     value = local.postgres_connection_string
@@ -48,21 +53,32 @@ resource "azurerm_container_app" "app" {
 
     container {
       name   = "web"
-      image  = var.container_image
+      image  = "${azurerm_container_registry.acr.login_server}/fca-handbook-assistant:${var.image_tag}"
       cpu    = 0.5
       memory = "1Gi"
 
+      # Real Azure embeddings drive retrieval; the answer wording is synthesised locally because the
+      # subscription has no chat-completion quota (see docs/deploy). Mode=Local selects the local
+      # grounded chat client, while Embeddings:Provider=Azure uses text-embedding-3-small.
       env {
         name  = "Ai__Mode"
+        value = "Local"
+      }
+      env {
+        name  = "Ai__Embeddings__Provider"
         value = "Azure"
+      }
+      env {
+        name  = "Ai__Embeddings__Dimensions"
+        value = "1536"
+      }
+      env {
+        name  = "Ai__RetrievalFloor"
+        value = "0.35"
       }
       env {
         name  = "Ai__Azure__OpenAiEndpoint"
         value = azurerm_cognitive_account.foundry.endpoint
-      }
-      env {
-        name  = "Ai__Azure__ChatDeployment"
-        value = var.chat_deployment
       }
       env {
         name  = "Ai__Azure__EmbeddingDeployment"
