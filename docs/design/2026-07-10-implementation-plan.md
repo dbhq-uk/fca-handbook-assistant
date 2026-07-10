@@ -391,6 +391,8 @@ answer + citations, audit panel), enable interactive-server components in `Progr
 
 - [ ] Add the `azurerm` backend block (rg `rg-dbhq-housekeeping`, sa `dbhqtfstateuks01`,
   container `tfstate`, key `fca-handbook-assistant.tfstate`).
+- [ ] Name every resource via `local.names.*` from `infra/locals.tf` (CAF convention, see
+  `docs/design/azure-naming.md`) - never hard-code names.
 - [ ] Resources (verify current resource/module names before writing): AI Foundry account +
   project + chat + embedding deployments; AI Search (free); Content Safety; Log Analytics +
   App Insights; Container Apps env + app (min replicas 0); Key Vault + managed identity.
