@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Azure.AI.ContentSafety" />
+    <PackageReference Include="Azure.Identity" />
   </ItemGroup>
 
 </Project>
