@@ -20,3 +20,39 @@ variable "location" {
   type        = string
   default     = "uksouth"
 }
+
+variable "chat_deployment" {
+  description = "Name of the chat model deployment."
+  type        = string
+  default     = "gpt-4o-mini"
+}
+
+variable "embedding_deployment" {
+  description = "Name of the embedding model deployment."
+  type        = string
+  default     = "text-embedding-3-small"
+}
+
+variable "container_image" {
+  description = "Container image for the app (for example ghcr.io/dbhq-uk/fca-handbook-assistant:<tag>)."
+  type        = string
+  default     = "ghcr.io/dbhq-uk/fca-handbook-assistant:latest"
+}
+
+variable "postgres_admin_login" {
+  description = "Postgres administrator login."
+  type        = string
+  default     = "fca"
+}
+
+variable "postgres_admin_password" {
+  description = "Postgres administrator password (supply via TF_VAR_postgres_admin_password; never commit)."
+  type        = string
+  sensitive   = true
+}
+
+variable "allowed_client_ip" {
+  description = "Optional public IP allowed to reach Postgres (to run ingestion from a workstation)."
+  type        = string
+  default     = ""
+}
