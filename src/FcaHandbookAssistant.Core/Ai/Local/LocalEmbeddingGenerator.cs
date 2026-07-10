@@ -12,6 +12,25 @@ namespace FcaHandbookAssistant.Core.Ai.Local;
 /// </summary>
 public sealed class LocalEmbeddingGenerator : IEmbeddingGenerator<string, Embedding<float>>
 {
+    // This is a keyword proxy for a real embedding model, so it has no IDF: without help, common
+    // words dominate the cosine and unrelated questions look similar. Dropping generic English and
+    // FCA-boilerplate words leaves the distinctive terms (integrity, suitability, compliance,
+    // consumer, reporting, ...) to drive similarity, so relevant matches rank first and out-of-scope
+    // questions score near zero. Real semantic retrieval uses the Azure embedding deployment.
+    static readonly HashSet<string> Stopwords = new(StringComparer.Ordinal)
+    {
+        // generic English
+        "a", "an", "and", "are", "as", "at", "be", "but", "by", "can", "do", "does", "for", "from",
+        "has", "have", "in", "into", "is", "it", "its", "may", "must", "not", "of", "on", "or",
+        "out", "should", "so", "such", "that", "the", "their", "them", "then", "these", "this",
+        "those", "to", "was", "were", "what", "when", "where", "which", "will", "with", "would",
+        "you", "your", "any", "all", "about", "other", "than",
+        // FCA boilerplate that appears across most provisions
+        "firm", "firms", "business", "adequate", "procedures", "arrangements", "reasonable",
+        "appropriate", "effective", "maintain", "establish", "implement", "ensure", "provide",
+        "including", "relevant", "take", "steps", "place", "set", "sets", "level", "requirements",
+    };
+
     readonly int _dimensions;
 
     public LocalEmbeddingGenerator(int dimensions = 1536) => _dimensions = dimensions;
@@ -64,14 +83,23 @@ public sealed class LocalEmbeddingGenerator : IEmbeddingGenerator<string, Embedd
             }
             else if (token.Length > 0)
             {
-                yield return token.ToString();
+                var word = token.ToString();
+                if (!Stopwords.Contains(word))
+                {
+                    yield return word;
+                }
+
                 token.Clear();
             }
         }
 
         if (token.Length > 0)
         {
-            yield return token.ToString();
+            var word = token.ToString();
+            if (!Stopwords.Contains(word))
+            {
+                yield return word;
+            }
         }
     }
 
