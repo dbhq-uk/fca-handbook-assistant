@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Text.Json;
 using FcaHandbookAssistant.Core.Abstractions;
 using FcaHandbookAssistant.Core.Ai;
 using FcaHandbookAssistant.Core.Domain;
@@ -17,8 +16,6 @@ namespace FcaHandbookAssistant.Core.Grounding;
 /// </summary>
 public sealed class GroundedAnswerService : IGroundedAnswerService
 {
-    static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
-
     readonly IChatClient _chatClient;
     readonly IEmbeddingGenerator<string, Embedding<float>> _embeddings;
     readonly IRetriever _retriever;
@@ -81,7 +78,7 @@ public sealed class GroundedAnswerService : IGroundedAnswerService
         var promptTokens = (int)(response.Usage?.InputTokenCount ?? 0);
         var completionTokens = (int)(response.Usage?.OutputTokenCount ?? 0);
 
-        var parsed = ParseAnswer(response.Text);
+        var parsed = GroundedAnswerJson.TryParse(response.Text);
         var answer = parsed is null
             ? GroundedAnswer.Refusal("The model did not return a valid grounded answer.")
             : GroundingPolicy.Apply(retrieved, parsed, _options.RetrievalFloor);
@@ -153,35 +150,4 @@ public sealed class GroundedAnswerService : IGroundedAnswerService
 
         return answer with { Citations = citations };
     }
-
-    static GroundedAnswer? ParseAnswer(string text)
-    {
-        if (string.IsNullOrWhiteSpace(text))
-        {
-            return null;
-        }
-
-        try
-        {
-            var dto = JsonSerializer.Deserialize<AnswerDto>(text, JsonOptions);
-            if (dto is null)
-            {
-                return null;
-            }
-
-            var citations = (dto.Citations ?? [])
-                .Select(c => new Citation(c.Reference ?? string.Empty, c.Url ?? string.Empty, c.Quote ?? string.Empty))
-                .ToArray();
-
-            return new GroundedAnswer(dto.Answer ?? string.Empty, citations, dto.Refused, dto.Reason);
-        }
-        catch (JsonException)
-        {
-            return null;
-        }
-    }
-
-    sealed record AnswerDto(string? Answer, List<CitationDto>? Citations, bool Refused, string? Reason);
-
-    sealed record CitationDto(string? Reference, string? Url, string? Quote);
 }
