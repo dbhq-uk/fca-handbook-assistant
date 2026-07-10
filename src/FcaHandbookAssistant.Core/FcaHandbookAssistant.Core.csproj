@@ -8,6 +8,13 @@
     <PackageReference Include="Microsoft.Extensions.AI" />
     <PackageReference Include="Azure.AI.ContentSafety" />
     <PackageReference Include="Azure.Identity" />
+    <PackageReference Include="Npgsql" />
+    <PackageReference Include="Pgvector" />
+    <PackageReference Include="Azure.Search.Documents" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\schema.sql" />
   </ItemGroup>
 
 </Project>
