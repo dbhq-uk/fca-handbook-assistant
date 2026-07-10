@@ -22,10 +22,24 @@ var dryRun = args.Contains("--dry-run");
 var connectionString = Environment.GetEnvironmentVariable("FCA_DB")
     ?? throw new InvalidOperationException("Set FCA_DB to the Postgres connection string.");
 
+var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+
 var manifestPath = Path.Combine(AppContext.BaseDirectory, "data", "manifest.json");
 var manifestJson = await File.ReadAllTextAsync(manifestPath);
-var entries = JsonSerializer.Deserialize<ManifestEntry[]>(manifestJson, new JsonSerializerOptions(JsonSerializerDefaults.Web))
+var entries = JsonSerializer.Deserialize<ManifestEntry[]>(manifestJson, jsonOptions)
     ?? throw new InvalidOperationException("The manifest could not be read.");
+
+// Real Handbook text, if a fetch has populated it (see scripts/fetch_handbook.py). When present it
+// is used; otherwise we fall back to the manifest summary (offline/CI). The file is gitignored - the
+// Handbook is Crown/FCA copyright, stored for retrieval, never committed.
+var textFile = Environment.GetEnvironmentVariable("FCA_TEXT_FILE");
+var realText = !string.IsNullOrWhiteSpace(textFile) && File.Exists(textFile)
+    ? JsonSerializer.Deserialize<Dictionary<string, string>>(await File.ReadAllTextAsync(textFile), jsonOptions) ?? []
+    : [];
+Console.WriteLine(realText.Count > 0 ? $"Real Handbook text: {realText.Count} provisions from {textFile}." : "Real Handbook text: none (using manifest summaries).");
+
+string TextFor(ManifestEntry entry) =>
+    realText.TryGetValue(entry.Reference, out var text) && !string.IsNullOrWhiteSpace(text) ? text : entry.Summary;
 
 await using var dataSource = DataSourceFactory.Create(connectionString);
 await SchemaBootstrapper.EnsureAsync(dataSource);
@@ -50,6 +64,6 @@ else
 }
 
 var pipeline = new IngestionPipeline(embeddings, store);
-var count = await pipeline.RunAsync(entries, (entry, _) => Task.FromResult(entry.Summary));
+var count = await pipeline.RunAsync(entries, (entry, _) => Task.FromResult(TextFor(entry)));
 
 Console.WriteLine($"Ingested {count} provisions.");
