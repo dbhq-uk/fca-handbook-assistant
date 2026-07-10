@@ -1,0 +1,72 @@
+@page "/"
+@rendermode InteractiveServer
+@using FcaHandbookAssistant.Core.Domain
+@using FcaHandbookAssistant.Core.Grounding
+@inject IGroundedAnswerService AnswerService
+
+<h1>FCA Handbook Assistant</h1>
+<p class="lede">
+    Ask a compliance question about the FCA Handbook. Every answer cites a specific provision,
+    or the assistant refuses - no hallucinated rules.
+</p>
+
+<div class="ask">
+    <textarea @bind="_question" rows="3"
+              placeholder="e.g. What must be assessed when recommending an investment?"></textarea>
+    <button @onclick="AskAsync" disabled="@_busy">@(_busy ? "Thinking…" : "Ask")</button>
+</div>
+
+@if (_answer is not null)
+{
+    @if (_answer.Refused)
+    {
+        <div class="card refusal">
+            <h2>Not found in the Handbook</h2>
+            <p>@_answer.Reason</p>
+        </div>
+    }
+    else
+    {
+        <div class="card answer">
+            <h2>Answer</h2>
+            <p>@_answer.Text</p>
+        </div>
+        <div class="card citations">
+            <h2>Citations <span class="badge">source audit</span></h2>
+            <ul>
+                @foreach (var citation in _answer.Citations)
+                {
+                    <li>
+                        <a href="@citation.Url" target="_blank" rel="noopener">@citation.Reference</a>
+                        <span class="quote">@citation.Quote</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+}
+
+@code {
+    private string _question = "What must be assessed when recommending an investment to a client?";
+    private GroundedAnswer? _answer;
+    private bool _busy;
+
+    private async Task AskAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_question))
+        {
+            return;
+        }
+
+        _busy = true;
+        _answer = null;
+        try
+        {
+            _answer = await AnswerService.AskAsync(_question);
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+}
