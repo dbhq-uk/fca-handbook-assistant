@@ -1,0 +1,44 @@
+[
+  {
+    "question": "What must a firm do when assessing the suitability of an investment recommendation?",
+    "expect": "answer",
+    "expectedCitations": ["COBS 9.2.1"]
+  },
+  {
+    "question": "What does the Consumer Duty require firms to do for retail customers?",
+    "expect": "answer",
+    "expectedCitations": ["PRIN 2A.1.1"]
+  },
+  {
+    "question": "Must a financial promotion be fair, clear and not misleading?",
+    "expect": "answer",
+    "expectedCitations": ["COBS 4.2.1"]
+  },
+  {
+    "question": "What compliance arrangements must a firm maintain?",
+    "expect": "answer",
+    "expectedCitations": ["SYSC 6.1.1"]
+  },
+  {
+    "question": "What regular reporting must firms submit to the FCA?",
+    "expect": "answer",
+    "expectedCitations": ["SUP 16.1.1"]
+  },
+  {
+    "question": "What must a firm do to act with integrity?",
+    "expect": "answer",
+    "expectedCitations": ["PRIN 2.1.1"]
+  },
+  {
+    "question": "What is the capital of France?",
+    "expect": "refuse"
+  },
+  {
+    "question": "Will it rain tomorrow in London?",
+    "expect": "refuse"
+  },
+  {
+    "question": "What is a good recipe for sourdough bread?",
+    "expect": "refuse"
+  }
+]

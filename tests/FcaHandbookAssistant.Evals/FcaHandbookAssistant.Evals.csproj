@@ -21,4 +21,8 @@
     <ProjectReference Include="..\FcaHandbookAssistant.TestSupport\FcaHandbookAssistant.TestSupport.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="data\gold-set.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
