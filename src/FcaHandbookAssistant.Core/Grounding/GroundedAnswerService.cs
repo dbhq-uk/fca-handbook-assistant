@@ -3,6 +3,7 @@ using FcaHandbookAssistant.Core.Abstractions;
 using FcaHandbookAssistant.Core.Ai;
 using FcaHandbookAssistant.Core.Domain;
 using FcaHandbookAssistant.Core.Guardrails;
+using FcaHandbookAssistant.Core.Observability;
 using Microsoft.Extensions.AI;
 
 namespace FcaHandbookAssistant.Core.Grounding;
@@ -23,6 +24,7 @@ public sealed class GroundedAnswerService : IGroundedAnswerService
     readonly IPiiRedactor _pii;
     readonly IAuditSink _audit;
     readonly GroundedAnswerOptions _options;
+    readonly HandbookMetrics? _metrics;
 
     public GroundedAnswerService(
         IChatClient chatClient,
@@ -31,7 +33,8 @@ public sealed class GroundedAnswerService : IGroundedAnswerService
         IContentSafetyClient safety,
         IPiiRedactor pii,
         IAuditSink audit,
-        GroundedAnswerOptions options)
+        GroundedAnswerOptions options,
+        HandbookMetrics? metrics = null)
     {
         _chatClient = chatClient;
         _embeddings = embeddings;
@@ -40,6 +43,7 @@ public sealed class GroundedAnswerService : IGroundedAnswerService
         _pii = pii;
         _audit = audit;
         _options = options;
+        _metrics = metrics;
     }
 
     public async Task<GroundedAnswer> AskAsync(string question, CancellationToken cancellationToken = default)
@@ -130,6 +134,7 @@ public sealed class GroundedAnswerService : IGroundedAnswerService
             completionTokens);
 
         await _audit.WriteAsync(record, cancellationToken);
+        _metrics?.Record(answer.Refused, answer.Citations.Count, promptTokens, completionTokens, stopwatch.ElapsedMilliseconds);
         return answer;
     }
 

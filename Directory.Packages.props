@@ -12,6 +12,7 @@
     <PackageVersion Include="Microsoft.Agents.AI.Foundry" Version="1.13.0-preview.260703.1" />
     <PackageVersion Include="Azure.AI.Projects" Version="2.1.0-beta.4" />
     <PackageVersion Include="Azure.AI.ContentSafety" Version="1.0.0" />
+    <PackageVersion Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.5.0" />
     <PackageVersion Include="Azure.Identity" Version="1.21.0" />
 
     <!-- Retrieval: pgvector on Postgres (primary), Azure AI Search (cloud variant). -->

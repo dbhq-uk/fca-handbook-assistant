@@ -1,0 +1,42 @@
+{
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json",
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "# FCA Handbook Assistant - regulated AI dashboard\nGrounding, refusal rate, latency, and token cost from the custom metrics emitted by the app."
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "customMetrics | where name in ('handbook.answers', 'handbook.refusals') | summarize total = sum(valueSum) by name",
+        "size": 0,
+        "title": "Answers vs refusals",
+        "visualization": "piechart"
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "customMetrics | where name in ('handbook.prompt_tokens', 'handbook.completion_tokens') | summarize tokens = sum(valueSum) by bin(timestamp, 1h), name | render timechart",
+        "size": 0,
+        "title": "Token usage over time",
+        "visualization": "timechart"
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "customMetrics | where name == 'handbook.latency_ms' | summarize p50 = percentile(valueSum / valueCount, 50), p95 = percentile(valueSum / valueCount, 95) by bin(timestamp, 15m) | render timechart",
+        "size": 0,
+        "title": "Answer latency (p50 / p95, ms)",
+        "visualization": "timechart"
+      }
+    }
+  ]
+}

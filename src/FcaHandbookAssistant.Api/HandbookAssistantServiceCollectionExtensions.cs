@@ -11,6 +11,7 @@ using FcaHandbookAssistant.Core.Azure;
 using FcaHandbookAssistant.Core.Data;
 using FcaHandbookAssistant.Core.Grounding;
 using FcaHandbookAssistant.Core.Guardrails;
+using FcaHandbookAssistant.Core.Observability;
 using FcaHandbookAssistant.Core.Retrieval;
 using Microsoft.Extensions.AI;
 using Npgsql;
@@ -33,6 +34,7 @@ public static class HandbookAssistantServiceCollectionExtensions
         services.AddSingleton<IRetriever>(sp => new PgVectorRetriever(sp.GetRequiredService<NpgsqlDataSource>()));
         services.AddSingleton<IAuditSink>(sp => new PostgresAuditSink(sp.GetRequiredService<NpgsqlDataSource>()));
         services.AddSingleton<IPiiRedactor, RegexPiiRedactor>();
+        services.AddSingleton<HandbookMetrics>();
         services.AddSingleton(new GroundedAnswerOptions
         {
             RetrievalCount = options.RetrievalCount,
