@@ -6,6 +6,7 @@ using Azure.Identity;
 using FcaHandbookAssistant.Api.Configuration;
 using FcaHandbookAssistant.Core.Abstractions;
 using FcaHandbookAssistant.Core.Agent;
+using FcaHandbookAssistant.Core.Ai;
 using FcaHandbookAssistant.Core.Ai.Local;
 using FcaHandbookAssistant.Core.Azure;
 using FcaHandbookAssistant.Core.Data;
@@ -35,6 +36,7 @@ public static class HandbookAssistantServiceCollectionExtensions
         services.AddSingleton<IAuditSink>(sp => new PostgresAuditSink(sp.GetRequiredService<NpgsqlDataSource>()));
         services.AddSingleton<IPiiRedactor, RegexPiiRedactor>();
         services.AddSingleton<HandbookMetrics>();
+        services.AddSingleton(EmbeddingGeneratorFactory.Create(BuildEmbeddingSettings(options)));
         services.AddSingleton(new GroundedAnswerOptions
         {
             RetrievalCount = options.RetrievalCount,
@@ -49,13 +51,33 @@ public static class HandbookAssistantServiceCollectionExtensions
         else
         {
             services.AddSingleton<IChatClient, LocalGroundedChatClient>();
-            services.AddSingleton<IEmbeddingGenerator<string, Embedding<float>>>(_ => new LocalEmbeddingGenerator());
             services.AddSingleton<IContentSafetyClient, PassThroughContentSafety>();
             services.AddSingleton<IHandbookAgent, GroundedAnswerAgentAdapter>();
         }
 
         services.AddSingleton<IGroundedAnswerService, GroundedAnswerService>();
         return services;
+    }
+
+    static EmbeddingSettings BuildEmbeddingSettings(AiOptions options)
+    {
+        var provider = (options.Embeddings.Provider ?? (options.IsAzure ? "Azure" : "Local")).ToLowerInvariant() switch
+        {
+            "ollama" => EmbeddingProvider.Ollama,
+            "azure" => EmbeddingProvider.Azure,
+            _ => EmbeddingProvider.Local,
+        };
+
+        return new EmbeddingSettings
+        {
+            Provider = provider,
+            Dimensions = options.Embeddings.Dimensions,
+            OllamaEndpoint = options.Embeddings.OllamaEndpoint,
+            OllamaModel = options.Embeddings.OllamaModel,
+            AzureEndpoint = options.Azure.OpenAiEndpoint,
+            AzureDeployment = options.Azure.EmbeddingDeployment,
+            AzureKey = options.Azure.OpenAiKey,
+        };
     }
 
     static void AddAzure(IServiceCollection services, AzureAiOptions azure, AiOptions options)
@@ -66,8 +88,6 @@ public static class HandbookAssistantServiceCollectionExtensions
             : AzureOpenAIClientFactory.Create(endpoint, azure.OpenAiKey);
 
         services.AddSingleton<IChatClient>(_ => AzureOpenAIClientFactory.ChatClient(openAiClient, azure.ChatDeployment));
-        services.AddSingleton<IEmbeddingGenerator<string, Embedding<float>>>(_ =>
-            AzureOpenAIClientFactory.EmbeddingGenerator(openAiClient, azure.EmbeddingDeployment));
 
         if (!string.IsNullOrWhiteSpace(azure.ContentSafetyEndpoint))
         {

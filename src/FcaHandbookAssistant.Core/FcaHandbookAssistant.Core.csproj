@@ -8,6 +8,7 @@
     <PackageReference Include="Microsoft.Extensions.AI" />
     <PackageReference Include="Microsoft.Extensions.AI.OpenAI" />
     <PackageReference Include="Azure.AI.OpenAI" />
+    <PackageReference Include="OpenAI" />
     <PackageReference Include="Microsoft.Agents.AI" />
     <PackageReference Include="Microsoft.Agents.AI.Foundry" />
     <PackageReference Include="Azure.AI.Projects" />

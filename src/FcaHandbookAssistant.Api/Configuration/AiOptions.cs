@@ -10,8 +10,18 @@ public sealed class AiOptions
     public int RetrievalCount { get; set; } = 5;
     public double RetrievalFloor { get; set; } = 0.3;
     public AzureAiOptions Azure { get; set; } = new();
+    public EmbeddingOptions Embeddings { get; set; } = new();
 
     public bool IsAzure => string.Equals(Mode, "Azure", StringComparison.OrdinalIgnoreCase);
+}
+
+public sealed class EmbeddingOptions
+{
+    /// <summary>Local | Ollama | Azure. When unset, derived from <see cref="AiOptions.Mode"/>.</summary>
+    public string? Provider { get; set; }
+    public int Dimensions { get; set; } = 1536;
+    public string OllamaEndpoint { get; set; } = "http://localhost:11434/v1";
+    public string OllamaModel { get; set; } = "all-minilm";
 }
 
 public sealed class AzureAiOptions

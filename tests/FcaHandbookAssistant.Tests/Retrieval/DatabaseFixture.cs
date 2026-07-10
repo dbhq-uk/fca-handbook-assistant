@@ -22,6 +22,13 @@ public sealed class DatabaseFixture : IAsyncLifetime
         }
 
         DataSource = DataSourceFactory.Create(connectionString);
+        // Tests seed their own 1536-dimension data, so start from a known schema regardless of any
+        // prior ingestion (which may have created the table at a different embedding dimension).
+        await using (var drop = DataSource.CreateCommand("DROP TABLE IF EXISTS provisions;"))
+        {
+            await drop.ExecuteNonQueryAsync();
+        }
+
         await SchemaBootstrapper.EnsureAsync(DataSource);
     }
 
