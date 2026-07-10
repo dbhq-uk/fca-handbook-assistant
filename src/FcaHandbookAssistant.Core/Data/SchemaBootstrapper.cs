@@ -14,8 +14,15 @@ public static class SchemaBootstrapper
         // The schema is authored at 1536 (text-embedding-3-small); rewrite for other providers
         // (for example Ollama all-minilm at 384). The store dimension must match the generator.
         sql = sql.Replace("vector(1536)", $"vector({embeddingDimensions})", StringComparison.Ordinal);
-        await using var command = dataSource.CreateCommand(sql);
-        await command.ExecuteNonQueryAsync(cancellationToken);
+        await using (var command = dataSource.CreateCommand(sql))
+        {
+            await command.ExecuteNonQueryAsync(cancellationToken);
+        }
+
+        // On a fresh database the data source loaded its type catalogue before CREATE EXTENSION
+        // vector ran, so it cannot map the 'vector' type yet. Reload so pgvector parameters bind.
+        await using var connection = await dataSource.OpenConnectionAsync(cancellationToken);
+        await connection.ReloadTypesAsync(cancellationToken);
     }
 
     static async Task<string> ReadSchemaAsync(CancellationToken cancellationToken)
