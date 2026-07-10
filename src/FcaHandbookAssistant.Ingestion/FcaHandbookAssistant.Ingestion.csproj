@@ -9,4 +9,8 @@
     <ProjectReference Include="..\FcaHandbookAssistant.Core\FcaHandbookAssistant.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="data\manifest.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

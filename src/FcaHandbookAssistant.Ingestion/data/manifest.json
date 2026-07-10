@@ -1,0 +1,72 @@
+[
+  {
+    "reference": "PRIN 2.1.1",
+    "sourcebook": "PRIN",
+    "title": "The Principles for Businesses",
+    "url": "https://handbook.fca.org.uk/handbook/PRIN/2/1.html",
+    "summary": "Sets out the FCA's Principles for Businesses, the fundamental obligations firms must meet: Principle 1 Integrity - a firm must conduct its business with integrity. Principle 2 Skill, care and diligence. Principle 3 Management and control - a firm must take reasonable care to organise and control its affairs responsibly and effectively, with adequate risk management systems. Principle 4 Financial prudence. Principle 5 Market conduct. Principle 6 Customers' interests - a firm must pay due regard to the interests of its customers and treat them fairly. Principle 7 Communications with clients - a firm must pay due regard to the information needs of its clients and communicate information in a way that is clear, fair and not misleading. Principle 8 Conflicts of interest. Principle 9 Customers: relationships of trust. Principle 10 Clients' assets - a firm must arrange adequate protection for clients' assets when it is responsible for them. Principle 11 Relations with regulators - a firm must deal with its regulators in an open and cooperative way and disclose anything of which the FCA would reasonably expect notice."
+  },
+  {
+    "reference": "PRIN 2A.1.1",
+    "sourcebook": "PRIN",
+    "title": "The Consumer Duty - a firm must act to deliver good outcomes for retail customers",
+    "url": "https://handbook.fca.org.uk/handbook/PRIN/2A/1.html",
+    "summary": "Introduces the Consumer Duty. A firm must act to deliver good outcomes for retail customers. This is the consumer principle (Principle 12) and is supported by cross-cutting rules requiring firms to act in good faith, avoid causing foreseeable harm, and enable and support retail customers to pursue their financial objectives, across the four outcomes of products and services, price and value, consumer understanding, and consumer support."
+  },
+  {
+    "reference": "SYSC 4.1.1",
+    "sourcebook": "SYSC",
+    "title": "General organisational requirements",
+    "url": "https://handbook.fca.org.uk/handbook/SYSC/4/1.html",
+    "summary": "A firm must have robust governance arrangements, which include a clear organisational structure with well defined, transparent and consistent lines of responsibility, effective processes to identify, manage, monitor and report the risks it is or might be exposed to, and internal control mechanisms, including sound administrative and accounting procedures and effective control and safeguard arrangements for information processing systems. These arrangements must be comprehensive and proportionate to the nature, scale and complexity of the firm's business."
+  },
+  {
+    "reference": "SYSC 6.1.1",
+    "sourcebook": "SYSC",
+    "title": "Compliance",
+    "url": "https://handbook.fca.org.uk/handbook/SYSC/6/1.html",
+    "summary": "A firm must establish, implement and maintain adequate policies and procedures designed to detect any risk of failure by the firm to comply with its obligations under the regulatory system, and put in place adequate measures and procedures designed to minimise such risk. A firm must maintain a permanent and effective compliance function that operates independently and is responsible for monitoring and assessing the adequacy and effectiveness of the firm's measures."
+  },
+  {
+    "reference": "SYSC 7.1.1",
+    "sourcebook": "SYSC",
+    "title": "Risk control",
+    "url": "https://handbook.fca.org.uk/handbook/SYSC/7/1.html",
+    "summary": "A firm must establish, implement and maintain adequate risk management policies and procedures, including effective procedures for risk assessment, which identify the risks relating to the firm's activities, processes and systems, and where appropriate set the level of risk tolerated by the firm. A firm must adopt effective arrangements, processes and mechanisms to manage those risks."
+  },
+  {
+    "reference": "COBS 2.1.1",
+    "sourcebook": "COBS",
+    "title": "Acting honestly, fairly and professionally - the client's best interests rule",
+    "url": "https://handbook.fca.org.uk/handbook/COBS/2/1.html",
+    "summary": "A firm must act honestly, fairly and professionally in accordance with the best interests of its client (the client's best interests rule). This rule applies to a firm carrying on designated investment business and certain other activities for a client."
+  },
+  {
+    "reference": "COBS 4.2.1",
+    "sourcebook": "COBS",
+    "title": "Fair, clear and not misleading communications",
+    "url": "https://handbook.fca.org.uk/handbook/COBS/4/2.html",
+    "summary": "A firm must ensure that a communication or a financial promotion is fair, clear and not misleading. Whether a communication satisfies this requirement depends on the information it contains and the characteristics of the intended recipients. This rule applies in a way that is appropriate and proportionate taking into account the means of communication and the information it is intended to convey."
+  },
+  {
+    "reference": "COBS 6.1.4",
+    "sourcebook": "COBS",
+    "title": "Information about the firm and its services",
+    "url": "https://handbook.fca.org.uk/handbook/COBS/6/1.html",
+    "summary": "A firm must provide a client with appropriate information, in good time, about the firm and its services, so that the client is reasonably able to understand the nature and risks of the service being offered and take investment decisions on an informed basis. This includes information about the firm, its address and contact details, and the languages and methods of communication available."
+  },
+  {
+    "reference": "COBS 9.2.1",
+    "sourcebook": "COBS",
+    "title": "Assessing suitability",
+    "url": "https://handbook.fca.org.uk/handbook/COBS/9/2.html",
+    "summary": "A firm must take reasonable steps to ensure that a personal recommendation, or a decision to trade, is suitable for its client. When making the recommendation the firm must obtain the necessary information about the client's knowledge and experience in the relevant investment field, the client's financial situation including their ability to bear losses, and the client's investment objectives including their risk tolerance, so as to enable the firm to recommend what is suitable."
+  },
+  {
+    "reference": "SUP 16.1.1",
+    "sourcebook": "SUP",
+    "title": "Reporting requirements - application",
+    "url": "https://handbook.fca.org.uk/handbook/SUP/16/1.html",
+    "summary": "Sets out the application of the FCA's regular reporting requirements. Firms must submit reports to the FCA containing the information specified, in the manner and at the frequency and by the due dates set out in the reporting provisions, so that the FCA can monitor firms' compliance with regulatory requirements and identify risks."
+  }
+]
