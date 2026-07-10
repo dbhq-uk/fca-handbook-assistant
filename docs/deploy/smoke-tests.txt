@@ -1,0 +1,12 @@
+# E2E smoke tests - deployed Azure Container App (https://ca-fca-dev-uks-01.jollyglacier-4b42e05d.uksouth.azurecontainerapps.io)
+
+health:        {"status":"ok"}
+integrity:     ANSWER  ['PRIN 2.1.1']
+suitability:   ANSWER  ['COBS 9.2.1']
+consumer duty: ANSWER  ['PRIN 2A.1.1']
+communications:ANSWER  ['COBS 4.2.1']
+reporting:     ANSWER  ['SUP 16.1.1']
+France (OOS):  REFUSED
+bread (OOS):   REFUSED
+agent(suit):   AGENT   ['COBS 9.2.1']
+GET / :        HTTP 200 (Blazor UI)
