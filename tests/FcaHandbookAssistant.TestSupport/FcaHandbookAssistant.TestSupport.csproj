@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <!-- A shared support library, not a test project: it references xunit only for the DB-gated
+         fact attribute. Keep `dotnet test` from trying to run it as a test assembly. -->
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
