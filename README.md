@@ -76,6 +76,21 @@ curl -X POST localhost:5xxx/api/ask -H 'content-type: application/json' \
 
 Set `Ai:Mode=Azure` (with the Foundry endpoint and deployments) to run against real models.
 
+### Embeddings
+
+Retrieval quality depends on the embedding model. Three providers are supported behind one
+interface (set `Ai:Embeddings:Provider`, and `EMBEDDINGS` for ingestion):
+
+- **Local** (default) - deterministic hashing-trick embeddings; zero dependencies, for offline
+  determinism and CI. Keyword-level, not semantic.
+- **Ollama** - real semantic embeddings from a local [Ollama](https://ollama.com) model
+  (`all-minilm`, 384 dimensions) via its OpenAI-compatible endpoint. No cloud; used by the
+  `semantic-evals` CI job. Set `Ai:Embeddings:Dimensions=384` and a retrieval floor around `0.35`.
+- **Azure** - Azure OpenAI / Foundry (`text-embedding-3-small`, 1536 dimensions).
+
+The store's vector dimension must match the provider; ingestion sets it, so re-ingest into a fresh
+table when switching provider.
+
 ## Handbook content
 
 The FCA Handbook is publicly published but Crown/FCA copyright. The Handbook is a JavaScript
