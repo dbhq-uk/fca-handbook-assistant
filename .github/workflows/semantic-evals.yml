@@ -1,0 +1,72 @@
+name: semantic-evals
+
+# Real semantic retrieval eval with no cloud: a pgvector Postgres service and a local Ollama
+# embedding model. Ingests the provisions with Ollama embeddings and measures citation accuracy
+# and refusal-when-unsure against the gold set.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  semantic-evals:
+    name: ollama semantic retrieval eval
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: fca
+          POSTGRES_PASSWORD: fca
+          POSTGRES_DB: fca_handbook
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U fca"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
+    env:
+      FCA_DB: "Host=localhost;Port=5432;Database=fca_handbook;Username=fca;Password=fca"
+      EMBEDDINGS: ollama
+      OLLAMA_ENDPOINT: "http://localhost:11434/v1"
+      OLLAMA_MODEL: all-minilm
+      EMBEDDING_DIM: "384"
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Install and start Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          ollama serve &
+          for i in $(seq 1 30); do curl -sf http://localhost:11434/api/version && break; sleep 1; done
+          ollama pull all-minilm
+
+      - name: Build
+        run: dotnet build -c Release
+
+      - name: Ingest provisions with Ollama embeddings
+        run: dotnet run --project src/FcaHandbookAssistant.Ingestion -c Release --no-build
+
+      - name: Run semantic evals
+        env:
+          RUN_SEMANTIC_EVALS: "1"
+          EVAL_REPORT_PATH: semantic-eval-report.md
+        run: dotnet test tests/FcaHandbookAssistant.Evals -c Release --no-build --filter "FullyQualifiedName~SemanticEvals"
+
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-eval-report
+          path: semantic-eval-report.md
