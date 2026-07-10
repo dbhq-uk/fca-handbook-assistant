@@ -27,11 +27,11 @@ public static class GroundingPolicy
         }
 
         var retrievedReferences = retrieved
-            .Select(r => Normalise(r.Provision.Reference))
+            .Select(r => NormaliseReference(r.Provision.Reference))
             .ToHashSet();
 
         var groundedCitations = modelAnswer.Citations
-            .Where(c => retrievedReferences.Contains(Normalise(c.Reference)))
+            .Where(c => retrievedReferences.Contains(NormaliseReference(c.Reference)))
             .ToArray();
 
         if (groundedCitations.Length == 0)
@@ -42,7 +42,8 @@ public static class GroundingPolicy
         return modelAnswer with { Citations = groundedCitations, Refused = false, Reason = null };
     }
 
-    static string Normalise(string reference) =>
+    /// <summary>Normalises a provision reference for comparison: upper-cased, whitespace collapsed.</summary>
+    public static string NormaliseReference(string reference) =>
         string.Join(
             ' ',
             reference.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
