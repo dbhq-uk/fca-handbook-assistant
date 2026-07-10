@@ -1,0 +1,74 @@
+name: deploy
+
+# Manual, cost-incurring. Builds and pushes the image, then applies (or destroys) the infra.
+#
+# Note: the Terraform state account is IP-locked to the build machine, so `terraform init` against
+# the shared backend succeeds only from an allow-listed runner. In practice the apply is run from
+# the allow-listed build box; this workflow documents the CI/CD shape and handles image build/push.
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "deploy or destroy"
+        type: choice
+        options: [deploy, destroy]
+        default: deploy
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Log in to GHCR
+        if: ${{ inputs.action == 'deploy' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        if: ${{ inputs.action == 'deploy' }}
+        run: |
+          docker build -t "$IMAGE:${{ github.sha }}" -t "$IMAGE:latest" .
+          docker push "$IMAGE:${{ github.sha }}"
+          docker push "$IMAGE:latest"
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - uses: hashicorp/setup-terraform@v4
+
+      - name: Terraform init
+        working-directory: infra
+        run: terraform init
+
+      - name: Terraform apply
+        if: ${{ inputs.action == 'deploy' }}
+        working-directory: infra
+        env:
+          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          TF_VAR_postgres_admin_password: ${{ secrets.POSTGRES_ADMIN_PASSWORD }}
+          TF_VAR_container_image: ${{ env.IMAGE }}:${{ github.sha }}
+        run: terraform apply -auto-approve
+
+      - name: Terraform destroy
+        if: ${{ inputs.action == 'destroy' }}
+        working-directory: infra
+        env:
+          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          TF_VAR_postgres_admin_password: ${{ secrets.POSTGRES_ADMIN_PASSWORD }}
+        run: terraform destroy -auto-approve
