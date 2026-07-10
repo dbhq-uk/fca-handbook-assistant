@@ -1,0 +1,25 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- AI service layer: Microsoft.Extensions.AI abstractions + Microsoft Agent Framework (Foundry). -->
+    <PackageVersion Include="Microsoft.Extensions.AI" Version="10.7.0" />
+    <PackageVersion Include="Microsoft.Agents.AI" Version="1.13.0" />
+    <PackageVersion Include="Microsoft.Agents.AI.Foundry" Version="1.13.0-preview.260703.1" />
+    <PackageVersion Include="Azure.AI.Projects" Version="2.1.0-beta.4" />
+    <PackageVersion Include="Azure.AI.ContentSafety" Version="1.0.0" />
+    <PackageVersion Include="Azure.Identity" Version="1.21.0" />
+
+    <!-- Retrieval: pgvector on Postgres. -->
+    <PackageVersion Include="Npgsql" Version="10.0.3" />
+    <PackageVersion Include="Pgvector" Version="0.3.2" />
+
+    <!-- Test tooling. -->
+    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.7.0" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+  </ItemGroup>
+</Project>

@@ -1,8 +1,12 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/FcaHandbookAssistant.Api/FcaHandbookAssistant.Api.csproj" />
+    <Project Path="src/FcaHandbookAssistant.Core/FcaHandbookAssistant.Core.csproj" />
+    <Project Path="src/FcaHandbookAssistant.Ingestion/FcaHandbookAssistant.Ingestion.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/FcaHandbookAssistant.Tests/FcaHandbookAssistant.Tests.csproj" />
+    <Project Path="tests/FcaHandbookAssistant.Evals/FcaHandbookAssistant.Evals.csproj" />
+    <Project Path="tests/FcaHandbookAssistant.TestSupport/FcaHandbookAssistant.TestSupport.csproj" />
   </Folder>
 </Solution>
