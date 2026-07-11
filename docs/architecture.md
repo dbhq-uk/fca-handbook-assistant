@@ -43,6 +43,8 @@ flowchart TB
     SVC --> OTEL[OpenTelemetry] --> AI[Application Insights]
 ```
 
+![Architecture diagram](architecture-assets/architecture.png)
+
 ## The guardrails are the point
 
 Grounding is enforced by code, not trusted to the model:

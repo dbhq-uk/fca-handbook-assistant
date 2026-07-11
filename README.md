@@ -1,5 +1,10 @@
 # fca-handbook-assistant
 
+[![dotnet](https://github.com/dbhq-uk/fca-handbook-assistant/actions/workflows/dotnet.yml/badge.svg)](https://github.com/dbhq-uk/fca-handbook-assistant/actions/workflows/dotnet.yml)
+[![terraform](https://github.com/dbhq-uk/fca-handbook-assistant/actions/workflows/terraform.yml/badge.svg)](https://github.com/dbhq-uk/fca-handbook-assistant/actions/workflows/terraform.yml)
+[![semantic-evals](https://github.com/dbhq-uk/fca-handbook-assistant/actions/workflows/semantic-evals.yml/badge.svg)](https://github.com/dbhq-uk/fca-handbook-assistant/actions/workflows/semantic-evals.yml)
+[![codeql](https://github.com/dbhq-uk/fca-handbook-assistant/actions/workflows/codeql.yml/badge.svg)](https://github.com/dbhq-uk/fca-handbook-assistant/actions/workflows/codeql.yml)
+
 A full-stack .NET reference implementation of **regulated-grade AI on Azure**: grounded compliance question-answering over the public [FCA Handbook](https://www.handbook.fca.org.uk/), with a tool-calling agent for looking up and cross-referencing specific provisions.
 
 It is an AI-DevOps reference project - it evidences production .NET, the Azure AI service layer, and LLMOps (evals, cost observability, CI/CD) in a regulated financial-services setting.
