@@ -6,9 +6,9 @@
   <ItemGroup>
     <!-- AI service layer: Microsoft.Extensions.AI abstractions + Microsoft Agent Framework (Foundry). -->
     <PackageVersion Include="Microsoft.Extensions.AI" Version="10.7.0" />
-    <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.7.0" />
+    <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="10.8.0" />
     <PackageVersion Include="Azure.AI.OpenAI" Version="2.9.0-beta.1" />
-    <PackageVersion Include="OpenAI" Version="2.11.0" />
+    <PackageVersion Include="OpenAI" Version="2.12.0" />
     <PackageVersion Include="Microsoft.Agents.AI" Version="1.13.0" />
     <PackageVersion Include="Microsoft.Agents.AI.Foundry" Version="1.13.0-preview.260703.1" />
     <PackageVersion Include="Azure.AI.Projects" Version="2.1.0-beta.4" />
